@@ -1,0 +1,313 @@
+PGDMP          
+    
+        }         
+   bus_ticket    17.5    17.5 N    ‚           0    0    ENCODING    ENCODING        SET client_encoding = 'UTF8';
+                           false            ƒ           0    0 
+   STDSTRINGS 
+   STDSTRINGS     (   SET standard_conforming_strings = 'on';
+                           false            „           0    0 
+   SEARCHPATH 
+   SEARCHPATH     8   SELECT pg_catalog.set_config('search_path', '', false);
+                           false            …           1262    24591 
+   bus_ticket    DATABASE     ‚   CREATE DATABASE bus_ticket WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'Vietnamese_Vietnam.1252';
+    DROP DATABASE bus_ticket;
+                     postgres    false            æ            1259    24670    booking_details    TABLE     }   CREATE TABLE public.booking_details (
+    booking_detail_id integer NOT NULL,
+    booking_id integer,
+    seat_id integer
+);
+ #   DROP TABLE public.booking_details;
+       public         heap r       postgres    false            å            1259    24669 %   booking_details_booking_detail_id_seq    SEQUENCE        CREATE SEQUENCE public.booking_details_booking_detail_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ <   DROP SEQUENCE public.booking_details_booking_detail_id_seq;
+       public               postgres    false    230            †           0    0 %   booking_details_booking_detail_id_seq    SEQUENCE OWNED BY     o   ALTER SEQUENCE public.booking_details_booking_detail_id_seq OWNED BY public.booking_details.booking_detail_id;
+          public               postgres    false    229            ä            1259    24651    bookings    TABLE     G  CREATE TABLE public.bookings (
+    booking_id integer NOT NULL,
+    user_id integer,
+    schedule_id integer,
+    booking_time timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    status character varying(20) DEFAULT 'booked'::character varying,
+    payment_method character varying(50),
+    total_price numeric(10,2)
+);
+    DROP TABLE public.bookings;
+       public         heap r       postgres    false            ã            1259    24650    bookings_booking_id_seq    SEQUENCE        CREATE SEQUENCE public.bookings_booking_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ .   DROP SEQUENCE public.bookings_booking_id_seq;
+       public               postgres    false    228            ‡           0    0    bookings_booking_id_seq    SEQUENCE OWNED BY     S   ALTER SEQUENCE public.bookings_booking_id_seq OWNED BY public.bookings.booking_id;
+          public               postgres    false    227            Ü            1259    24606    buses    TABLE     æ   CREATE TABLE public.buses (
+    bus_id integer NOT NULL,
+    license_plate character varying(20),
+    driver_name character varying(100),
+    seat_count integer,
+    bus_type character varying(50),
+    seat_price numeric(10,2)
+);
+    DROP TABLE public.buses;
+       public         heap r       postgres    false            Û            1259    24605    buses_bus_id_seq    SEQUENCE     ˆ   CREATE SEQUENCE public.buses_bus_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ '   DROP SEQUENCE public.buses_bus_id_seq;
+       public               postgres    false    220            ˆ           0    0    buses_bus_id_seq    SEQUENCE OWNED BY     E   ALTER SEQUENCE public.buses_bus_id_seq OWNED BY public.buses.bus_id;
+          public               postgres    false    219            è            1259    24687 
+   cancellations    TABLE     Ã   CREATE TABLE public.cancellations (
+    cancellation_id integer NOT NULL,
+    booking_id integer,
+    cancel_reason text,
+    cancel_time timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+ !   DROP TABLE public.cancellations;
+       public         heap r       postgres    false            ç            1259    24686 !   cancellations_cancellation_id_seq    SEQUENCE     ™   CREATE SEQUENCE public.cancellations_cancellation_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ 8   DROP SEQUENCE public.cancellations_cancellation_id_seq;
+       public               postgres    false    232            ‰           0    0 !   cancellations_cancellation_id_seq    SEQUENCE OWNED BY     g   ALTER SEQUENCE public.cancellations_cancellation_id_seq OWNED BY public.cancellations.cancellation_id;
+          public               postgres    false    231            ê            1259    24702    payments    TABLE     Z  CREATE TABLE public.payments (
+    payment_id integer NOT NULL,
+    booking_id integer,
+    payment_method character varying(50),
+    payment_time timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    amount numeric(10,2),
+    status character varying(20) DEFAULT 'pending'::character varying,
+    transaction_code character varying(100)
+);
+    DROP TABLE public.payments;
+       public         heap r       postgres    false            é            1259    24701    payments_payment_id_seq    SEQUENCE        CREATE SEQUENCE public.payments_payment_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ .   DROP SEQUENCE public.payments_payment_id_seq;
+       public               postgres    false    234            Š           0    0    payments_payment_id_seq    SEQUENCE OWNED BY     S   ALTER SEQUENCE public.payments_payment_id_seq OWNED BY public.payments.payment_id;
+          public               postgres    false    233            Þ            1259    24615    routes    TABLE     ¥   CREATE TABLE public.routes (
+    route_id integer NOT NULL,
+    start_point character varying(100),
+    end_point character varying(100),
+    distance_km integer
+);
+    DROP TABLE public.routes;
+       public         heap r       postgres    false            Ý            1259    24614    routes_route_id_seq    SEQUENCE     ‹   CREATE SEQUENCE public.routes_route_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ *   DROP SEQUENCE public.routes_route_id_seq;
+       public               postgres    false    222            ‹           0    0    routes_route_id_seq    SEQUENCE OWNED BY     K   ALTER SEQUENCE public.routes_route_id_seq OWNED BY public.routes.route_id;
+          public               postgres    false    221            à            1259    24622 	   schedules    TABLE     å   CREATE TABLE public.schedules (
+    schedule_id integer NOT NULL,
+    route_id integer,
+    bus_id integer,
+    departure_time timestamp without time zone,
+    arrival_time timestamp without time zone,
+    price numeric(10,2)
+);
+    DROP TABLE public.schedules;
+       public         heap r       postgres    false            ß            1259    24621    schedules_schedule_id_seq    SEQUENCE     ‘   CREATE SEQUENCE public.schedules_schedule_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ 0   DROP SEQUENCE public.schedules_schedule_id_seq;
+       public               postgres    false    224            Œ           0    0    schedules_schedule_id_seq    SEQUENCE OWNED BY     W   ALTER SEQUENCE public.schedules_schedule_id_seq OWNED BY public.schedules.schedule_id;
+          public               postgres    false    223            â            1259    24639    seats    TABLE     w   CREATE TABLE public.seats (
+    seat_id integer NOT NULL,
+    bus_id integer,
+    seat_number character varying(10)
+);
+    DROP TABLE public.seats;
+       public         heap r       postgres    false            á            1259    24638    seats_seat_id_seq    SEQUENCE     ‰   CREATE SEQUENCE public.seats_seat_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ (   DROP SEQUENCE public.seats_seat_id_seq;
+       public               postgres    false    226                       0    0    seats_seat_id_seq    SEQUENCE OWNED BY     G   ALTER SEQUENCE public.seats_seat_id_seq OWNED BY public.seats.seat_id;
+          public               postgres    false    225            Ú            1259    24593    users    TABLE     §  CREATE TABLE public.users (
+    user_id integer NOT NULL,
+    email character varying(255),
+    password character varying(255),
+    full_name character varying(100),
+    phone_number character varying(20),
+    facebook_id character varying(255),
+    google_id character varying(255),
+    role character varying(10) DEFAULT 'user'::character varying,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+    DROP TABLE public.users;
+       public         heap r       postgres    false            Ù            1259    24592    users_user_id_seq    SEQUENCE     ‰   CREATE SEQUENCE public.users_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ (   DROP SEQUENCE public.users_user_id_seq;
+       public               postgres    false    218            Ž           0    0    users_user_id_seq    SEQUENCE OWNED BY     G   ALTER SEQUENCE public.users_user_id_seq OWNED BY public.users.user_id;
+          public               postgres    false    217            ¸           2604    24673 !   booking_details booking_detail_id     DEFAULT     –   ALTER TABLE ONLY public.booking_details ALTER COLUMN booking_detail_id SET DEFAULT nextval('public.booking_details_booking_detail_id_seq'::regclass);
+ P   ALTER TABLE public.booking_details ALTER COLUMN booking_detail_id DROP DEFAULT;
+       public               postgres    false    229    230    230            µ           2604    24654    bookings booking_id     DEFAULT     z   ALTER TABLE ONLY public.bookings ALTER COLUMN booking_id SET DEFAULT nextval('public.bookings_booking_id_seq'::regclass);
+ B   ALTER TABLE public.bookings ALTER COLUMN booking_id DROP DEFAULT;
+       public               postgres    false    228    227    228            ±           2604    24609    buses bus_id     DEFAULT     l   ALTER TABLE ONLY public.buses ALTER COLUMN bus_id SET DEFAULT nextval('public.buses_bus_id_seq'::regclass);
+ ;   ALTER TABLE public.buses ALTER COLUMN bus_id DROP DEFAULT;
+       public               postgres    false    220    219    220            ¹           2604    24690    cancellations cancellation_id     DEFAULT     Ž   ALTER TABLE ONLY public.cancellations ALTER COLUMN cancellation_id SET DEFAULT nextval('public.cancellations_cancellation_id_seq'::regclass);
+ L   ALTER TABLE public.cancellations ALTER COLUMN cancellation_id DROP DEFAULT;
+       public               postgres    false    231    232    232            »           2604    24705    payments payment_id     DEFAULT     z   ALTER TABLE ONLY public.payments ALTER COLUMN payment_id SET DEFAULT nextval('public.payments_payment_id_seq'::regclass);
+ B   ALTER TABLE public.payments ALTER COLUMN payment_id DROP DEFAULT;
+       public               postgres    false    234    233    234            ²           2604    24618    routes route_id     DEFAULT     r   ALTER TABLE ONLY public.routes ALTER COLUMN route_id SET DEFAULT nextval('public.routes_route_id_seq'::regclass);
+ >   ALTER TABLE public.routes ALTER COLUMN route_id DROP DEFAULT;
+       public               postgres    false    221    222    222            ³           2604    24625    schedules schedule_id     DEFAULT     ~   ALTER TABLE ONLY public.schedules ALTER COLUMN schedule_id SET DEFAULT nextval('public.schedules_schedule_id_seq'::regclass);
+ D   ALTER TABLE public.schedules ALTER COLUMN schedule_id DROP DEFAULT;
+       public               postgres    false    223    224    224            ´           2604    24642 
+   seats seat_id     DEFAULT     n   ALTER TABLE ONLY public.seats ALTER COLUMN seat_id SET DEFAULT nextval('public.seats_seat_id_seq'::regclass);
+ <   ALTER TABLE public.seats ALTER COLUMN seat_id DROP DEFAULT;
+       public               postgres    false    225    226    226            ®           2604    24596 
+   users user_id     DEFAULT     n   ALTER TABLE ONLY public.users ALTER COLUMN user_id SET DEFAULT nextval('public.users_user_id_seq'::regclass);
+ <   ALTER TABLE public.users ALTER COLUMN user_id DROP DEFAULT;
+       public               postgres    false    218    217    218            {          0    24670    booking_details 
+   TABLE DATA           Q   COPY public.booking_details (booking_detail_id, booking_id, seat_id) FROM stdin;
+    public               postgres    false    230   8`       y          0    24651    bookings 
+   TABLE DATA           w   COPY public.bookings (booking_id, user_id, schedule_id, booking_time, status, payment_method, total_price) FROM stdin;
+    public               postgres    false    228   ‚`       q          0    24606    buses 
+   TABLE DATA           e   COPY public.buses (bus_id, license_plate, driver_name, seat_count, bus_type, seat_price) FROM stdin;
+    public               postgres    false    220   +a       }          0    24687 
+   cancellations 
+   TABLE DATA           `   COPY public.cancellations (cancellation_id, booking_id, cancel_reason, cancel_time) FROM stdin;
+    public               postgres    false    232   a                 0    24702    payments 
+   TABLE DATA           z   COPY public.payments (payment_id, booking_id, payment_method, payment_time, amount, status, transaction_code) FROM stdin;
+    public               postgres    false    234   ºa       s          0    24615    routes 
+   TABLE DATA           O   COPY public.routes (route_id, start_point, end_point, distance_km) FROM stdin;
+    public               postgres    false    222   8b       u          0    24622 	   schedules 
+   TABLE DATA           g   COPY public.schedules (schedule_id, route_id, bus_id, departure_time, arrival_time, price) FROM stdin;
+    public               postgres    false    224   Ôb       w          0    24639    seats 
+   TABLE DATA           =   COPY public.seats (seat_id, bus_id, seat_number) FROM stdin;
+    public               postgres    false    226   )c       o          0    24593    users 
+   TABLE DATA           |   COPY public.users (user_id, email, password, full_name, phone_number, facebook_id, google_id, role, created_at) FROM stdin;
+    public               postgres    false    218   Ed                  0    0 %   booking_details_booking_detail_id_seq    SEQUENCE SET     T   SELECT pg_catalog.setval('public.booking_details_booking_detail_id_seq', 16, true);
+          public               postgres    false    229                       0    0    bookings_booking_id_seq    SEQUENCE SET     E   SELECT pg_catalog.setval('public.bookings_booking_id_seq', 9, true);
+          public               postgres    false    227            ‘           0    0    buses_bus_id_seq    SEQUENCE SET     >   SELECT pg_catalog.setval('public.buses_bus_id_seq', 2, true);
+          public               postgres    false    219            ’           0    0 !   cancellations_cancellation_id_seq    SEQUENCE SET     P   SELECT pg_catalog.setval('public.cancellations_cancellation_id_seq', 1, false);
+          public               postgres    false    231            “           0    0    payments_payment_id_seq    SEQUENCE SET     E   SELECT pg_catalog.setval('public.payments_payment_id_seq', 2, true);
+          public               postgres    false    233            ”           0    0    routes_route_id_seq    SEQUENCE SET     A   SELECT pg_catalog.setval('public.routes_route_id_seq', 8, true);
+          public               postgres    false    221            •           0    0    schedules_schedule_id_seq    SEQUENCE SET     G   SELECT pg_catalog.setval('public.schedules_schedule_id_seq', 2, true);
+          public               postgres    false    223            –           0    0    seats_seat_id_seq    SEQUENCE SET     @   SELECT pg_catalog.setval('public.seats_seat_id_seq', 74, true);
+          public               postgres    false    225            —           0    0    users_user_id_seq    SEQUENCE SET     ?   SELECT pg_catalog.setval('public.users_user_id_seq', 4, true);
+          public               postgres    false    217            Ï           2606    24675 $   booking_details booking_details_pkey 
+   CONSTRAINT     q   ALTER TABLE ONLY public.booking_details
+    ADD CONSTRAINT booking_details_pkey PRIMARY KEY (booking_detail_id);
+ N   ALTER TABLE ONLY public.booking_details DROP CONSTRAINT booking_details_pkey;
+       public                 postgres    false    230            Í           2606    24658    bookings bookings_pkey 
+   CONSTRAINT     \   ALTER TABLE ONLY public.bookings
+    ADD CONSTRAINT bookings_pkey PRIMARY KEY (booking_id);
+ @   ALTER TABLE ONLY public.bookings DROP CONSTRAINT bookings_pkey;
+       public                 postgres    false    228            Ã           2606    24613    buses buses_license_plate_key 
+   CONSTRAINT     a   ALTER TABLE ONLY public.buses
+    ADD CONSTRAINT buses_license_plate_key UNIQUE (license_plate);
+ G   ALTER TABLE ONLY public.buses DROP CONSTRAINT buses_license_plate_key;
+       public                 postgres    false    220            Å           2606    24611    buses buses_pkey 
+   CONSTRAINT     R   ALTER TABLE ONLY public.buses
+    ADD CONSTRAINT buses_pkey PRIMARY KEY (bus_id);
+ :   ALTER TABLE ONLY public.buses DROP CONSTRAINT buses_pkey;
+       public                 postgres    false    220            Ñ           2606    24695     cancellations cancellations_pkey 
+   CONSTRAINT     k   ALTER TABLE ONLY public.cancellations
+    ADD CONSTRAINT cancellations_pkey PRIMARY KEY (cancellation_id);
+ J   ALTER TABLE ONLY public.cancellations DROP CONSTRAINT cancellations_pkey;
+       public                 postgres    false    232            Ó           2606    24709    payments payments_pkey 
+   CONSTRAINT     \   ALTER TABLE ONLY public.payments
+    ADD CONSTRAINT payments_pkey PRIMARY KEY (payment_id);
+ @   ALTER TABLE ONLY public.payments DROP CONSTRAINT payments_pkey;
+       public                 postgres    false    234            Ç           2606    24620    routes routes_pkey 
+   CONSTRAINT     V   ALTER TABLE ONLY public.routes
+    ADD CONSTRAINT routes_pkey PRIMARY KEY (route_id);
+ <   ALTER TABLE ONLY public.routes DROP CONSTRAINT routes_pkey;
+       public                 postgres    false    222            É           2606    24627    schedules schedules_pkey 
+   CONSTRAINT     _   ALTER TABLE ONLY public.schedules
+    ADD CONSTRAINT schedules_pkey PRIMARY KEY (schedule_id);
+ B   ALTER TABLE ONLY public.schedules DROP CONSTRAINT schedules_pkey;
+       public                 postgres    false    224            Ë           2606    24644    seats seats_pkey 
+   CONSTRAINT     S   ALTER TABLE ONLY public.seats
+    ADD CONSTRAINT seats_pkey PRIMARY KEY (seat_id);
+ :   ALTER TABLE ONLY public.seats DROP CONSTRAINT seats_pkey;
+       public                 postgres    false    226            ¿           2606    24604    users users_email_key 
+   CONSTRAINT     Q   ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_email_key UNIQUE (email);
+ ?   ALTER TABLE ONLY public.users DROP CONSTRAINT users_email_key;
+       public                 postgres    false    218            Á           2606    24602    users users_pkey 
+   CONSTRAINT     S   ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (user_id);
+ :   ALTER TABLE ONLY public.users DROP CONSTRAINT users_pkey;
+       public                 postgres    false    218            Ù           2606    24676 /   booking_details booking_details_booking_id_fkey 
+   FK CONSTRAINT     œ   ALTER TABLE ONLY public.booking_details
+    ADD CONSTRAINT booking_details_booking_id_fkey FOREIGN KEY (booking_id) REFERENCES public.bookings(booking_id);
+ Y   ALTER TABLE ONLY public.booking_details DROP CONSTRAINT booking_details_booking_id_fkey;
+       public               postgres    false    228    4813    230            Ú           2606    24681 ,   booking_details booking_details_seat_id_fkey 
+   FK CONSTRAINT        ALTER TABLE ONLY public.booking_details
+    ADD CONSTRAINT booking_details_seat_id_fkey FOREIGN KEY (seat_id) REFERENCES public.seats(seat_id);
+ V   ALTER TABLE ONLY public.booking_details DROP CONSTRAINT booking_details_seat_id_fkey;
+       public               postgres    false    4811    226    230            ×           2606    24664 "   bookings bookings_schedule_id_fkey 
+   FK CONSTRAINT     ’   ALTER TABLE ONLY public.bookings
+    ADD CONSTRAINT bookings_schedule_id_fkey FOREIGN KEY (schedule_id) REFERENCES public.schedules(schedule_id);
+ L   ALTER TABLE ONLY public.bookings DROP CONSTRAINT bookings_schedule_id_fkey;
+       public               postgres    false    224    228    4809            Ø           2606    24659    bookings bookings_user_id_fkey 
+   FK CONSTRAINT     ‚   ALTER TABLE ONLY public.bookings
+    ADD CONSTRAINT bookings_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id);
+ H   ALTER TABLE ONLY public.bookings DROP CONSTRAINT bookings_user_id_fkey;
+       public               postgres    false    228    4801    218            Û           2606    24696 +   cancellations cancellations_booking_id_fkey 
+   FK CONSTRAINT     ˜   ALTER TABLE ONLY public.cancellations
+    ADD CONSTRAINT cancellations_booking_id_fkey FOREIGN KEY (booking_id) REFERENCES public.bookings(booking_id);
+ U   ALTER TABLE ONLY public.cancellations DROP CONSTRAINT cancellations_booking_id_fkey;
+       public               postgres    false    232    4813    228            Ü           2606    24710 !   payments payments_booking_id_fkey 
+   FK CONSTRAINT     Ž   ALTER TABLE ONLY public.payments
+    ADD CONSTRAINT payments_booking_id_fkey FOREIGN KEY (booking_id) REFERENCES public.bookings(booking_id);
+ K   ALTER TABLE ONLY public.payments DROP CONSTRAINT payments_booking_id_fkey;
+       public               postgres    false    228    234    4813            Ô           2606    24633    schedules schedules_bus_id_fkey 
+   FK CONSTRAINT        ALTER TABLE ONLY public.schedules
+    ADD CONSTRAINT schedules_bus_id_fkey FOREIGN KEY (bus_id) REFERENCES public.buses(bus_id);
+ I   ALTER TABLE ONLY public.schedules DROP CONSTRAINT schedules_bus_id_fkey;
+       public               postgres    false    224    220    4805            Õ           2606    24628 !   schedules schedules_route_id_fkey 
+   FK CONSTRAINT     ˆ   ALTER TABLE ONLY public.schedules
+    ADD CONSTRAINT schedules_route_id_fkey FOREIGN KEY (route_id) REFERENCES public.routes(route_id);
+ K   ALTER TABLE ONLY public.schedules DROP CONSTRAINT schedules_route_id_fkey;
+       public               postgres    false    222    4807    224            Ö           2606    24645    seats seats_bus_id_fkey 
+   FK CONSTRAINT     y   ALTER TABLE ONLY public.seats
+    ADD CONSTRAINT seats_bus_id_fkey FOREIGN KEY (bus_id) REFERENCES public.buses(bus_id);
+ A   ALTER TABLE ONLY public.seats DROP CONSTRAINT seats_bus_id_fkey;
+       public               postgres    false    226    4805    220            {   :   xœÉ±À ÁX*†áÄƒ]Œû¯Ã|´Á"„£¨0SG”¡Ý&z”i–^å~µ1»]æ´åoØþsÈ	ÿ      y   ™   xœÐ=Â0†áÙ9E/Èv~‘½êXŠÊ€*Qî?@	YhñþèýdFöƒæ4 dL™ƒdGù¶À8ÇrQ1ØÂvÐeÛÖë§ù¾se®kEMv ÌÄÙzCQœ„®Å®"_Z»¨oQkpmâïÖùÖŠ/òGëóŽTY:šøm¹†äh`ß²¡²³QJ=éšYF      q   b   xœ3ä45tÔ54261å9¼ S¡âá®ý
+Žœ&œî f^úÃÝ“39
+€@ÏÀ€Ë¨ÃI×ÌÜÂÒ I‡§±	§{æ±
+wÏÍKWÈ{¸kc.§¡LSŒ ’ã#[      }   
+   xœ‹Ñãââ Å ©         n   xœ3ä4ätJÌËæ4202Õ50Ó5²P0°´2°°22Ó³4021´ä445 =ÎâÒääÔâbN__ÿøC#cS3.#N#‚fÁÌ(HÍKÉÌKçtrôóšanai`hÄ£ÇÅÅ ›”S      s   Œ   xœ3ä	Ðópöåt~¸kyžBHÆ±…œ†æ\F0ñ#/Pðy¸ka	§±—1§ ï÷p÷ÌLˆ”ßÃ][óÒ9M€r&È† Hšp™"iôx¸kq¦B@ÆáM@IC N3˜m~‰
+!E‰P=æ0a„V ¸,8=JîÚb‡¡¡WŒ BŠL‘      u   E   xœ]‹Ñ	À ¿}S¸€r‰H‹³tÿ9*bii’¯#§¤Yã^8
+Êœæ¾Lm1uf*„Óêû±ÿž3m{öã]5"n­Å:      w     xœ%Ð»•Ä0CÑØ(fÀŸ¤p¶Žé¿Ž!áJ|ýøðù6cðGÌr&Q3…=³qfîÌ—¾_ õ (Š
+£ƒâ @&(’
+åÅò€‚ya’mÁ$[ßøi0Éæ0É0É–0ÉV0É¶a’íÀ$Û…Kö—ì„Köþÿ7€Ã%{À%{Â%{Á%û†Kö—ì!9‚=ÿDØ¬!|¶ÃÆl r65[ˆ=»gö îìE.9
+ù‚DJì¼)²ó¦ÌÎ›B;oJí¼)¶ó¦ÜÎ›‚;oIî¼%¹óÖ{«¡$wÞ’ÜyKrç-É·$wÞ’ÜyKrçÝ’;ï–Üy·äÎ»ßŽ-¹ó~ÿ ü 4¶`U      o   "  xœP»NÃ@¬Ï_q…[Ÿ÷ÖçøQB%QPxIiXö}ŽŒpE>ƒ‰š*.ÃøO°
+R@‘³ÛìC3;‹¤¼
+s>‚t‘„ì*K¿:h‘qTVMý¤èéÇ£¢;¼6:p2wÙ-´
+èRð|p|äÌà‚Ð¬~·È…= ³¼Y½*:‹›zIw7ÜøOnAT”¥RÅE,C…-†QÈ¤ù9jm¬ßé¨-[1ÙÔÏŠ€å
+ÐÛs°) _|ÌµÐs“àº%üeDÇJç {xx~2^ÜÞL ŸLíËj$ÙE(²£l?°Ž3/IöL–EfP +ãðìÀ”‘$Ó²Y½(Zäû{¹~S›À÷Q½ä_/˜3MÓ>òO„=     
